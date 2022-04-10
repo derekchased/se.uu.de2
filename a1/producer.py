@@ -4,9 +4,9 @@ import pulsar
 client = pulsar.Client('pulsar://localhost:6650')
 
 # Create a producer on the topic that consumer can subscribe to
+producer = client.create_producer('DEtopic') 
 
-producer = client.create_producer('DEtopic') # Send a message to consumer
-
+# Send a message to consumer (well a broker right?)
 producer.send(('Welcome to Data Engineering Course!').encode('utf-8'))
 
 # Destroy pulsar client

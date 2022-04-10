@@ -2,7 +2,7 @@
 import pulsar
 
 # Create a pulsar client by supplying ip address and port
-client = pulsar.Client('pulsar://130.238.29.230:6650') 
+client = pulsar.Client('pulsar://130.238.29.222:6650') 
 
 # Subscribe to a topic and subscription
 consumer = client.subscribe('DEtopic', subscription_name='DE-sub') 
