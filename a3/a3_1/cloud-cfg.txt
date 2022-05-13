@@ -1,0 +1,20 @@
+#cloud-config
+
+apt_update: true
+apt_upgrade: true
+
+runcmd: 
+- sudo apt install python3-pip
+- pip install -U "ray[tune]"
+
+power_state:
+- delay: 60
+- mode: reboot
+- message: Rebooting machine
+
+final_message: |
+  cloud-init has finished
+  version: $version
+  timestamp: $timestamp
+  datasource: $datasource
+  uptime: $uptime

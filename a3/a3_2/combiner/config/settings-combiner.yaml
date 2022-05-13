@@ -1,0 +1,10 @@
+network_id: fedn-test-network
+controller:
+    discover_host: 130.238.29.51
+    discover_port: 8090
+
+combiner:
+    name: combiner
+    host: 130.238.28.254
+    port: 12080
+    max_clients: 30

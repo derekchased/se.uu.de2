@@ -1,0 +1,13 @@
+# Compose schema version
+version: '3.3'
+
+services:
+  # Client
+  client:
+    environment:
+      - GET_HOSTS_FROM=dns
+    build: .
+    working_dir: /app
+    command: run client -in config/settings-client.yaml
+    deploy:
+      replicas: 1

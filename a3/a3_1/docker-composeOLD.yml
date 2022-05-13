@@ -1,0 +1,52 @@
+version: '3.7'
+services:
+  spark:
+    image: bitnami/spark:latest
+    hostname: sparkapp
+    environment:
+      - SPARK_MODE=master
+    ports:
+      - 7077:7077
+      - 8080:8080
+      - 4040:4040
+      - 18080:18080
+      # - "4040-4049:4040-4049"
+    volumes:
+      - type: bind
+        source: /home/ubuntu/reddit/app
+        target: /opt/bitnami/spark/app
+      - type: bind
+        source: /home/ubuntu/reddit/volume
+        target: /opt/bitnami/spark/volume
+      - type: bind
+        source: /home/ubuntu/reddit/output:rw
+        target: /opt/bitnami/spark/output:rw
+      # - /home/ubuntu/reddit/app/conf/spark-defaults.conf:/opt/bitnami/spark/conf/spark-defaults.conf
+      # - spark-history:/opt/bitnami/spark/spark-history:rw
+    deploy:
+      placement:
+        constraints:
+          - "node.labels.node==sparkmaster"
+  spark-worker:
+    image: bitnami/spark:latest
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark:7077
+      # - SPARK_WORKER_MEMORY=1G
+      # - SPARK_WORKER_CORES=1
+    depends_on:
+      - spark
+    volumes:
+      - type: bind
+        source: /home/ubuntu/reddit/volume
+        target: /opt/bitnami/spark/volume
+      # - /home/ubuntu/reddit/app/conf/spark-defaults.conf:/opt/bitnami/spark/conf/spark-defaults.conf
+      # - spark-history:/opt/bitnami/spark/spark-history:rw
+    deploy:
+      placement:
+        constraints:
+          - "node.labels.node==sparkworker"
+      mode: replicated
+      replicas: 3
+# volumes:
+  # spark-history:
